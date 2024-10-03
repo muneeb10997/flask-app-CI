@@ -25,13 +25,7 @@ jobs:
       # Build the image with both latest and commit hash
       - name: Build Docker image with latest and commit hash tags
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest \
-                       -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }} .
-
-      # Push the latest Docker image (this will overwrite the previous latest image)
-      - name: Push Docker image (latest)
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }} , latest .
 
       # Push the Docker image with the commit hash tag (to retain the history)
       - name: Push Docker image (commit hash)
