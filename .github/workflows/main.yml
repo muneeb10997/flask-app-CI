@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,11 +21,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-  
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest .
 
-      - name: Push Docker image
+      - name: Build Docker image with latest and commit hash tags
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest \
+                       -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }} .
+
+      - name: Push Docker image (latest)
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+
+      - name: Push Docker image (commit hash)
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }}
