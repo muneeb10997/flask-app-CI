@@ -23,6 +23,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
   
       - name: Build Docker image with latest and commit hash tags
+        id: build_docker_image  # Add an ID to this step for referencing later
         run: |
           # Get the full commit hash
           FULL_HASH=${{ github.sha }}
@@ -34,5 +35,6 @@ jobs:
 
       - name: Push Docker images
         run: |
+          SHORT_HASH=$(echo ${{ github.sha }} | cut -c1-7)  # Recalculate SHORT_HASH here
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
