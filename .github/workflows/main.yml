@@ -32,5 +32,5 @@ jobs:
           docker tag ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest \
                      ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
           
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest 
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
+          docker push -a ${{ secrets.DOCKER_USERNAME }}/flask-app-image 
+          #docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
