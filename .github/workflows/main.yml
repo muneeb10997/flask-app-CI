@@ -29,8 +29,6 @@ jobs:
       - name: Push Docker images
         run: |
           SHORT_HASH=$(echo ${{ github.sha }} | cut -c1-7)
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH} .
-
-          docker tag ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH} ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH} -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest .
           docker images
           docker push -a ${{ secrets.DOCKER_USERNAME }}/flask-app-image 
