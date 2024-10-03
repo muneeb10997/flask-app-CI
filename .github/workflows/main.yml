@@ -24,8 +24,8 @@ jobs:
   
       - name: Build Docker image with latest and commit hash tags
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }} .
 
       - name: Push Docker image (latest)
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }}
