@@ -24,16 +24,13 @@ jobs:
     
       - name: Build Docker image with latest tag only
         run: |
-          # Build the Docker image with latest tag only
           docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest .
 
       - name: Push Docker images
         run: |
-          # Get the short hash
           SHORT_HASH=$(echo ${{ github.sha }} | cut -c1-7)
-          # Tag the image with the short hash
           docker tag ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest \
                      ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
-          # Push the images
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+          
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest 
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
