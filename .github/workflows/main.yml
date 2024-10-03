@@ -24,13 +24,15 @@ jobs:
   
       - name: Build Docker image with latest and commit hash tags
         run: |
+          # Get the full commit hash
+          FULL_HASH=${{ github.sha }}
+          # Shorten the hash to the first 7 characters using cut
+          SHORT_HASH=$(echo $FULL_HASH | cut -c1-7)
+          # Build the Docker image with latest and commit hash tags
           docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest \
-                       -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }} .
+                       -t ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH} .
 
-      - name: Push Docker image (latest)
+      - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
-
-      - name: Push Docker image (commit hash)
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${SHORT_HASH}
