@@ -29,3 +29,7 @@ jobs:
       - name: Push Docker image (latest)
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:latest
+
+      - name: Push Docker image (commit hash)
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app-image:${{ github.sha }}
